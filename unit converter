@@ -1,0 +1,54 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class UnitConverter extends JFrame {
+    private JTextField inputField;
+    private JLabel resultLabel;
+
+    public UnitConverter() {
+        super("Unit Converter");
+        setLayout(new FlowLayout());
+
+        JLabel inputLabel = new JLabel("Enter length in meters:");
+        inputField = new JTextField(10);
+        JButton convertButton = new JButton("Convert");
+        resultLabel = new JLabel();
+
+        convertButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                convert();
+            }
+        });
+
+        add(inputLabel);
+        add(inputField);
+        add(convertButton);
+        add(resultLabel);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(250, 150);
+        setVisible(true);
+    }
+
+    private void convert() {
+        try {
+            double meters = Double.parseDouble(inputField.getText());
+            double feet = meters * 3.281;
+            double inches = feet * 12;
+
+            resultLabel.setText(String.format("%.2f meters = %.2f feet = %.2f inches", meters, feet, inches));
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid number.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new UnitConverter();
+            }
+        });
+    }
+}
